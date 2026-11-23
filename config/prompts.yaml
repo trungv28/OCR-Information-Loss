@@ -1,0 +1,119 @@
+# {input_text} is the text chunk, the other fields come from the entity and its candidates
+ner:
+  gpt: |-
+    Annotate named entities in the input historical newspaper text.
+
+    The input text may be in English, French, or German.
+
+    Use only these five labels:
+
+    pers = named person or named group of people
+    Examples:
+    - President Wilson
+    - M. Clemenceau
+    - Kaiser Wilhelm
+    - Napoleon
+    - the Rothschilds
+
+    org = named organisation, institution, company, party, agency, government body
+    Examples:
+    - League of Nations
+    - Société des Nations
+    - Deutsche Bank
+    - British Government
+    - Reuters
+
+    prod = named product, work, newspaper title, book title, treaty, law, official document
+    Examples:
+    - The Times
+    - Journal de Genève
+    - Berliner Tageblatt
+    - Treaty of Versailles
+    - Magna Carta
+
+    time = explicit date, year, date range, or written historical time expression
+    Examples:
+    - 1919
+    - January 1919
+    - janvier 1919
+    - Januar 1919
+    - 12 March 1888
+    - the nineteenth century
+
+    loc = named place, country, city, region, street, building, facility, river, mountain
+    Examples:
+    - Paris
+    - Genève
+    - Berlin
+    - Luxembourg
+    - River Thames
+    - British Museum
+
+    Instructions:
+    - Annotate only spans explicitly written in the text.
+    - Copy each span exactly as it appears in the text — same characters, same casing, same spacing.
+    - Do not translate, normalize, correct, or modernize the text.
+    - Return mentions in reading order.
+    - If the same entity appears multiple times, return each mention separately.
+    - If there are no entities, return an empty entity list.
+    - Do not add explanations.
+
+    Input text:
+    {input_text}
+  gpt_fields:
+    text: Exact span copied character-for-character from the input text.
+    label: 'Entity label: pers, org, prod, time, or loc.'
+  llama_system: |-
+    You are a named entity recognition system for historical newspaper texts in English, French, and German.
+
+    Label entities using only these five types:
+    - pers: named person or named group of people (President Wilson, M. Clemenceau, Kaiser Wilhelm)
+    - org: named organisation, institution, company, party, agency (League of Nations, Deutsche Bank, Reuters)
+    - prod: named product, work, newspaper title, book title, treaty, law (The Times, Treaty of Versailles, Journal de Genève)
+    - time: explicit date, year, date range, or historical time expression (1919, January 1919, 12 March 1888)
+    - loc: named place, country, city, region, building, river, mountain (Paris, River Thames, British Museum)
+
+    Rules:
+    - Copy each span exactly as it appears — same characters, casing, and spacing.
+    - Do not translate, normalize, correct, or modernize.
+    - Return all mentions in reading order; repeat if the same entity appears multiple times.
+    - Return an empty list if there are no entities.
+
+    Respond with JSON only, no explanation. Use this format:
+    {"entities": [{"text": "span", "label": "pers|org|prod|time|loc"}, ...]}
+  llama_user: |-
+    Annotate named entities in this text:
+
+    {input_text}
+  # zero-shot gliner labels and the short label each maps to
+  gliner_labels:
+    person: pers
+    organisation: org
+    product or work: prod
+    date or time expression: time
+    location: loc
+
+el:
+  gpt: |-
+    You are an entity linker for historical newspaper text (1800s–1920s).
+
+    Given a named entity mention and its surrounding context, select the best matching Wikidata entry from the candidates below. Choose the candidate whose canonical name and description best matches the mention in context. If no candidate is a plausible match, output NIL.
+
+    Entity: {mention}
+    Type: {label}
+    Context: {context}
+
+    Candidates:
+    {candidates}
+
+    Output only the candidate ID (C1, C2, ...) or NIL. No explanation.
+  gpt_field: Selected candidate ID (C1, C2, ...) or NIL
+  llama_system: |-
+    You are an entity linker for historical newspaper text (1800s–1920s). Given a named entity mention and context, pick the best matching Wikidata entry from the candidates. Output only the candidate ID (C1, C2, ...) or NIL. No explanation.
+  llama_user: |-
+    Entity: {mention}
+    Type: {label}
+    Context: {context}
+
+    Candidates:
+    {candidates}

@@ -1,0 +1,6 @@
+data/
+runs/
+*.pkl
+__pycache__/
+*.pyc
+.venv/

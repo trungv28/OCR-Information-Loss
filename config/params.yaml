@@ -1,0 +1,75 @@
+models:
+  gpt: gpt-4.1-mini
+  llama: meta-llama/Llama-3.1-8B-Instruct
+  gliner: urchade/gliner_multi-v2.1
+  ner: impresso-project/ner-stacked-bert-multilingual
+  el: emanuelaboros/historical-nel
+  hmbert:
+    en: hmbert/flair-hipe-2022-topres19th-en
+    fr: hmbert/flair-hipe-2022-hipe2020-fr
+    de: hmbert/flair-hipe-2022-hipe2020-de
+
+# benchmark annotators
+annotation:
+  temperature: 0
+  ner_max_tokens: 4096
+  el_max_tokens_gpt: 16
+  el_max_tokens_llama: 8
+  llama_max_len_ner: 8192
+  llama_max_len_el: 4096
+  chunk_chars:
+    gpt: 2000
+    llama: 2000
+    gliner: 1000  # gliner truncates at 384 tokens, about 1200 chars
+  context_chars: 300  # el context shown to the verifiers
+  description_chars: 80  # per candidate description
+  candidates: 5  # top k from each candidate source
+  overlap: 0.8  # annotators agree with the same label and this span overlap
+  projection_similarity: 0.5  # projected entities below it are uncertain
+
+# downstream ner
+ner:
+  max_tokens: 480  # margin under the tagger's 512-token limit
+  overlap: 0.8  # a prediction is correct with the same label and this span overlap
+  hmbert_chunk_chars: 1800
+
+# downstream el
+el:
+  beam: 5
+  max_new_tokens: 64
+  max_len: 512  # linker's tokenizer limit
+  keep_before: 128  # left context tokens kept when the input is cut
+
+# lime attribution
+lime:
+  exact_spans: 8  # up to this many spans every mask is scored
+  min_samples: 256
+  samples_per_span: 12
+  max_samples: 600
+  sigma: 0.25  # kernel width
+
+local_damage:
+  h: 2  # kernel width in words
+
+repair:
+  max_j: 20  # repair budget, repair auc averages recovery over 0..max_j repairs
+  random_orders: 10  # shuffles averaged for the random strategy
+
+retrieval:
+  window: 2  # lines per unit, stride 1
+  max_query: 10  # query terms
+  max_anchors: 2  # other entities in a context query
+  n_idf: 3  # high-idf context words
+  run_depth: 1000
+  k: 10  # a unit counts as retrieved in the top k
+  k1: 1.5
+  b: 0.75
+  idf_epsilon: 0.25  # rank_bm25's floor for negative idf
+  competitors: 200  # re-ranked against the target, deep enough that nothing else reaches the top k
+  random_orders: 20
+  noise_seed: 13  # imperfect repairs
+
+evaluation:
+  bootstrap: 2000  # document-level resamples
+  seed: 42
+  rhos: [0.1, 0.25]
