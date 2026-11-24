@@ -1,6 +1,6 @@
 # Not All OCR Errors Are Equal: Measuring Historical Information Loss
 
-This repository builds a benchmark of NER, entity linking and retrieval units over paired GT and OCR newspaper text, runs the downstream models on both versions, measures the damage of each OCR error and repairs the errors in ranked order.
+CER counts how many characters OCR got wrong, not what those errors cost. A typo in "the" and a typo in a person's name weigh the same under CER, but only one of them hides the person from a search. We score each OCR error by the damage it does to named entity recognition, entity linking and retrieval on historical newspapers, and test the scores by repairing the most damaging errors first.
 
 | Part | Folder |
 |---|---|
