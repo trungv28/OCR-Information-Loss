@@ -11,7 +11,6 @@ from src.config import PARAMS, PROMPTS
 MODEL = PARAMS['models']['llama']
 SYSTEM_PROMPT = PROMPTS['el']['llama_system']
 USER_TEMPLATE = PROMPTS['el']['llama_user']
-CONTEXT_CHARS = PARAMS['annotation']['context_chars']
 DESC_CHARS = PARAMS['annotation']['description_chars']
 
 
@@ -27,7 +26,7 @@ def build_prompt(tokenizer, ent: dict) -> str:
     user = USER_TEMPLATE.format(
         mention=ent['mention'],
         label=ent['label'],
-        context=ent['context'][:CONTEXT_CHARS],
+        context=ent['context'],
         candidates=format_candidates(ent['candidate_qids']),
     )
     messages = [

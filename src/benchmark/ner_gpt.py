@@ -14,7 +14,7 @@ FIELDS = PROMPTS['ner']['gpt_fields']
 CHUNK_SIZE = PARAMS['annotation']['chunk_chars']['gpt']
 
 
-EntityLabel = Literal['pers', 'org', 'prod', 'time', 'loc']
+EntityLabel = Literal['pers', 'org', 'time', 'loc']
 
 
 class EntityMention(BaseModel):

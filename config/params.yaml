@@ -23,7 +23,6 @@ annotation:
     gpt: 2000
     llama: 2000
     gliner: 1000  # gliner truncates at 384 tokens, about 1200 chars
-  context_chars: 300  # el context shown to the verifiers
   description_chars: 80  # per candidate description
   candidates: 5  # top k from each candidate source
   overlap: 0.8  # annotators agree with the same label and this span overlap

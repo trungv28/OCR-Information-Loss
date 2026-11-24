@@ -5,7 +5,7 @@ ner:
 
     The input text may be in English, French, or German.
 
-    Use only these five labels:
+    Use only these four labels:
 
     pers = named person or named group of people
     Examples:
@@ -22,14 +22,6 @@ ner:
     - Deutsche Bank
     - British Government
     - Reuters
-
-    prod = named product, work, newspaper title, book title, treaty, law, official document
-    Examples:
-    - The Times
-    - Journal de Genève
-    - Berliner Tageblatt
-    - Treaty of Versailles
-    - Magna Carta
 
     time = explicit date, year, date range, or written historical time expression
     Examples:
@@ -62,14 +54,13 @@ ner:
     {input_text}
   gpt_fields:
     text: Exact span copied character-for-character from the input text.
-    label: 'Entity label: pers, org, prod, time, or loc.'
+    label: 'Entity label: pers, org, time, or loc.'
   llama_system: |-
     You are a named entity recognition system for historical newspaper texts in English, French, and German.
 
-    Label entities using only these five types:
+    Label entities using only these four types:
     - pers: named person or named group of people (President Wilson, M. Clemenceau, Kaiser Wilhelm)
     - org: named organisation, institution, company, party, agency (League of Nations, Deutsche Bank, Reuters)
-    - prod: named product, work, newspaper title, book title, treaty, law (The Times, Treaty of Versailles, Journal de Genève)
     - time: explicit date, year, date range, or historical time expression (1919, January 1919, 12 March 1888)
     - loc: named place, country, city, region, building, river, mountain (Paris, River Thames, British Museum)
 
@@ -80,7 +71,7 @@ ner:
     - Return an empty list if there are no entities.
 
     Respond with JSON only, no explanation. Use this format:
-    {"entities": [{"text": "span", "label": "pers|org|prod|time|loc"}, ...]}
+    {"entities": [{"text": "span", "label": "pers|org|time|loc"}, ...]}
   llama_user: |-
     Annotate named entities in this text:
 
@@ -89,7 +80,6 @@ ner:
   gliner_labels:
     person: pers
     organisation: org
-    product or work: prod
     date or time expression: time
     location: loc
 

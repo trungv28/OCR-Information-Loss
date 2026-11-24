@@ -16,6 +16,7 @@ LABEL_MAP = {
     'per': 'pers', 'pers': 'pers',
     'org': 'org',
     'loc': 'loc',
+    'time': 'time',
     'prod': 'prod',
 }
 

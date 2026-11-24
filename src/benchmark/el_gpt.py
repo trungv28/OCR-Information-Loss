@@ -12,7 +12,6 @@ from src.config import PARAMS, PROMPTS
 
 MODEL = PARAMS['models']['gpt']
 PROMPT = PROMPTS['el']['gpt']
-CONTEXT_CHARS = PARAMS['annotation']['context_chars']
 DESC_CHARS = PARAMS['annotation']['description_chars']
 MAX_RETRY = 3
 
@@ -35,7 +34,7 @@ def link(client: OpenAI, mention: str, label: str, context: str, cands: list[dic
     prompt = PROMPT.format(
         mention=mention,
         label=label,
-        context=context[:CONTEXT_CHARS],
+        context=context,
         candidates=format_candidates(cands),
     )
     valid_ids = {c['candidate_id'] for c in cands} | {'NIL'}
