@@ -2,6 +2,8 @@
 
 CER counts how many characters OCR got wrong, not what those errors cost. A typo in "the" and a typo in a person's name weigh the same under CER, but only one of them hides the person from a search. We score each OCR error by the damage it does to named entity recognition, entity linking and retrieval on historical newspapers, and test the scores by repairing the most damaging errors first.
 
+This repository contains the code for the paper: building the benchmark, running the downstream models on GT and OCR text, computing local and attribution damage, and the repair experiments.
+
 | Part | Folder |
 |---|---|
 | Benchmark: NER and EL annotation, consensus, GT to OCR projection | `src/benchmark/` |
