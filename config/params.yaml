@@ -1,3 +1,5 @@
+seed: 11  # every random choice
+
 models:
   gpt: gpt-4.1-mini
   llama: meta-llama/Llama-3.1-8B-Instruct
@@ -67,9 +69,7 @@ retrieval:
   idf_epsilon: 0.25  # rank_bm25's floor for negative idf
   competitors: 200  # re-ranked against the target, deep enough that nothing else reaches the top k
   random_orders: 20
-  noise_seed: 13  # imperfect repairs
 
 evaluation:
   bootstrap: 2000  # document-level resamples
-  seed: 42
   rhos: [0.1, 0.25]

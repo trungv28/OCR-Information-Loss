@@ -1,4 +1,5 @@
 import json
+import random
 import sys
 from pathlib import Path
 
@@ -109,8 +110,9 @@ if __name__ == '__main__':
             for strategy in STRATEGIES:
                 if strategy == 'random':
                     trajs = []
+                    rng = random.Random(PARAMS['seed'])
                     for _ in range(N_RANDOM_SEEDS):
-                        idx = rank_indices(spans, 'random')
+                        idx = rank_indices(spans, 'random', rng=rng)
                         trajs.append(entity_trajectory(linker, gt_win, ocr_win, spans, idx,
                                                        ent_ocr_s, ent_ocr_e, ref_qid, lang, rho))
                     traj = [float(np.mean([t[k] for t in trajs])) for k in range(len(trajs[0]))]

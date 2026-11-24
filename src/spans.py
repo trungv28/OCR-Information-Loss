@@ -1,9 +1,10 @@
-import hashlib
 import random
 import re
 from difflib import SequenceMatcher
 
 import numpy as np
+
+from src.config import PARAMS
 
 
 def levenshtein(a: str, b: str) -> int:
@@ -102,7 +103,7 @@ def degrade(text: str, rho: float, key: str) -> str:
     '''ocr-like noise an imperfect corrector leaves behind'''
     if not text or rho <= 0:
         return text
-    rng = random.Random(int(hashlib.md5(key.encode()).hexdigest()[:8], 16))
+    rng = random.Random(str(PARAMS['seed']) + '|' + key)
     alpha = sorted(set(text)) or list('abcdefghijklmnopqrstuvwxyz')
     out = []
     for ch in text:
@@ -153,8 +154,8 @@ def pop_auc(traj: list, k_max: int) -> float:
     return sum(traj[min(k, last)] for k in range(k_max + 1)) / (k_max + 1)
 
 
-def rank_indices(spans, strategy, local=None, damages=None):
-    # repair order for one strategy, random reshuffles on every call
+def rank_indices(spans, strategy, local=None, damages=None, rng=None):
+    # repair order for one strategy
     m = len(spans)
     if strategy == 'local_damage':
         return sorted(range(m), key=lambda i: local[i] if local is not None else 0, reverse=True)
@@ -165,5 +166,5 @@ def rank_indices(spans, strategy, local=None, damages=None):
     if strategy == 'mention_first':
         return sorted(range(m), key=lambda i: (0 if spans[i]['location_type'] == 'mention' else 1, -spans[i]['D']))
     idx = list(range(m))
-    random.shuffle(idx)
+    rng.shuffle(idx)
     return idx

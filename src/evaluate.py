@@ -18,7 +18,7 @@ MAX_J = PARAMS['repair']['max_j']
 K = PARAMS['retrieval']['k']
 RHOS = [str(r) for r in PARAMS['evaluation']['rhos']]
 N_BOOT = PARAMS['evaluation']['bootstrap']
-SEED = PARAMS['evaluation']['seed']
+SEED = PARAMS['seed']
 COLL = {'icdar2017': 'icdar-2017', 'impresso-nzz': 'nzz', 'impresso-snippets': 'snippets', 'overproof-combined': 'overproof'}
 
 NER_PRED = [('record_cer', 'Document CER'), ('mention_cer', 'Unit CER'), ('error_span_cer', 'Error-span CER'),

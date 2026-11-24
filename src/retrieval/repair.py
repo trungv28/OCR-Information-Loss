@@ -26,7 +26,7 @@ K1 = PARAMS['retrieval']['k1']
 B = PARAMS['retrieval']['b']
 IDF_EPSILON = PARAMS['retrieval']['idf_epsilon']
 N_COMPETITORS = PARAMS['retrieval']['competitors']
-SEED = PARAMS['retrieval']['noise_seed']
+SEED = PARAMS['seed']
 
 ENTITY_LABELS = {'loc', 'org', 'pers', 'prod', 'time'}
 STOPWORDS = {
@@ -309,8 +309,8 @@ if __name__ == '__main__':
         for strategy in strategies:
             if strategy == 'random':
                 seeds = []
-                for sd in range(N_RAND):
-                    rng = random.Random(sd)
+                rng = random.Random(SEED)
+                for _ in range(N_RAND):
                     order = list(range(len(blocks)))
                     rng.shuffle(order)
                     seeds.append(recovers_at(gw_rep, *args, order, *tail))

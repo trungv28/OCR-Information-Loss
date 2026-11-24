@@ -153,7 +153,7 @@ if __name__ == '__main__':
                 importance_only = 0.0
                 edit_lime_damage = 0.0
             else:
-                betas = gt_anchored_lime(tagger, gt_win, ocr_win, spans, ent_s, ent_e, ent['label'], score_gt, 0)
+                betas = gt_anchored_lime(tagger, gt_win, ocr_win, spans, ent_s, ent_e, ent['label'], score_gt, PARAMS['seed'])
                 damages = np.maximum(0.0, -betas)
                 importance_only = float(np.abs(betas).sum())
                 edit_lime_damage = float(damages.sum())
