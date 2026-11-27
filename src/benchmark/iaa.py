@@ -7,7 +7,7 @@ from pathlib import Path
 from src.config import PARAMS
 
 OVERLAP_THRESHOLD = PARAMS['annotation']['overlap']
-LABELS = ['pers', 'loc', 'org', 'prod', 'time']
+LABELS = ['pers', 'loc', 'org', 'time']
 
 
 def span_overlap(a_start, a_end, b_start, b_end) -> float:
